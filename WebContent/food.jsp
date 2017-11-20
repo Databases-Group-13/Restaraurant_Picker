@@ -202,11 +202,11 @@ Although you can use them, for a more unique website, replace these images with 
 						<tr style="text-align:center;">
 							<td style="width:45%; text-align:right;">
 								Max Carbs (g): <input type="text" name="Carbs" />
-							</td style="width:10%;">
+							</td>
 							<td>
 							</td>
 							<td style="width:45%; text-align:left;">
-								Max Fat (g): <input type="text" name="Fat" /></div>
+								Max Fat (g): <input type="text" name="Fat" />
 							</td>
 						</tr>
 					</table>
