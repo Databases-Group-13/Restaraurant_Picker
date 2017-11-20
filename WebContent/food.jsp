@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <!-- Template by Quackit.com -->
@@ -54,10 +54,10 @@ Although you can use them, for a more unique website, replace these images with 
             <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active">
+                    <li>
                         <a href="index.jsp">Home</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="food.jsp">Food</a>
                     </li>
                     <li>
@@ -111,17 +111,105 @@ Although you can use them, for a more unique website, replace these images with 
         </div>
     </div><!-- /.container-fluid -->
 
-	<!-- Find a Restaurant -->
+	<!-- Find a Meal -->
 	<div class="container">
-		<h1 class="text-center">Find a Restaurant</h1>
+		<h1 class="text-center">Find a Meal</h1>
 			<div style="margin:auto; width:100%; text-align:center;">
 			
-				<form method="post" action="show.jsp" style="margin-top:50px;">
-					<div style="width:100%; text-align:left;">
-					  <div style="left:0%; position:relative; display:inline;">Restaurant Name: <input type="text" name="Restaurant" /></div>
-					  <div style="left:7.5%; position:relative; display:inline;">Restaurant Type: <input type="text" name="Type" /></div>
-					  <div style="left:15%; position:relative; display:inline;">Restaurant Location: <input type="text" name="Location" /></div>
-				  	</div>
+				<%
+					Class.forName("com.mysql.jdbc.Driver");
+					String url = "jdbc:mysql://peopletable.clp3txsgtchd.us-east-2.rds.amazonaws.com:3306/innodb";
+					
+					Connection con = DriverManager.getConnection(url, "Admin", "Group13!");
+		
+					//Create a SQL statement
+					Statement stmt = con.createStatement();
+					String str = "SELECT DISTINCT Meal FROM Serves ORDER BY Meal ASC";
+					//Run the query against the database.
+					ResultSet meals = stmt.executeQuery(str);
+					
+					Statement stmt2 = con.createStatement();
+					String str2 = "SELECT DISTINCT Restaurant FROM Serves ORDER BY Restaurant ASC";
+					//Run the query against the database.
+					ResultSet restaurants = stmt2.executeQuery(str2);
+					
+					Statement stmt3 = con.createStatement();
+					String str3 = "SELECT DISTINCT Type FROM Restaurants ORDER BY Type ASC";
+					//Run the query against the database.
+					ResultSet type = stmt3.executeQuery(str3);
+				%>
+			
+				<form method="post" action="showFoods.jsp" style="margin-top:50px;">
+					<table style="width:100%;">
+						<tr style="text-align:center; height:50px;">
+							<td style="width:33%;">
+								Restaurant Name: <select name="Restaurant" style="width:45%;">
+													<option value=""> </option>
+													<%
+														while(restaurants.next())
+														{
+														String rest = restaurants.getString("Restaurant"); 
+													%>
+													<option value="<%=rest %>"><%=rest %></option>
+													<%
+														}
+													%>
+												 </select>
+							</td>
+							<td style="width:33%;">
+								Meal Name:  <select name="Meal" style="width:45%;">
+												<option value=""> </option>
+												<%
+													while(meals.next())
+													{
+													String name = meals.getString("Meal"); 
+												%>
+												<option value="<%=name %>"><%=name %></option>
+												<%
+													}
+												%>
+											</select>
+							</td>
+							<td style="width:33%;">
+								Meal Type: <select name="Type" style="width:45%;">
+												<option value=""> </option>
+												<%
+													while(type.next())
+													{
+													String types = type.getString("Type"); 
+													types = types.substring(0, types.length()-1);
+												%>
+												<option value="<%=types %>"><%=types %></option>
+												<%
+													}
+												%>
+											</select>
+							</td>
+						</tr>
+						<tr style="text-align:center; height:50px;">
+							<td style="width:33%;">
+								Max Price: $ <input type="text" name="Price" />
+							</td>
+							<td style="width:33%;">
+								Max Calories: <input type="text" name="Calories" />
+							</td>
+							<td style="width:33%;">
+								Max Protein (g): <input type="text" name="Protein" />
+							</td>
+						</tr>
+					</table>
+					<table style="width:100%; height:50px;">
+						<tr style="text-align:center;">
+							<td style="width:45%; text-align:right;">
+								Max Carbs (g): <input type="text" name="Carbs" />
+							</td style="width:10%;">
+							<td>
+							</td>
+							<td style="width:45%; text-align:left;">
+								Max Fat (g): <input type="text" name="Fat" /></div>
+							</td>
+						</tr>
+					</table>
 				  	<div style="margin:auto; width:50%; padding:40px;">
 				  	<button class="btn btn-primary" type="submit">
 				  		<span aria-hidden="true"></span> Submit

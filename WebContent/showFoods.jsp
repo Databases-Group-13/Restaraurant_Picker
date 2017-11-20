@@ -79,9 +79,9 @@ Although you can use them, for a more unique website, replace these images with 
 	</div>
 
 
-	<!-- Find a Restaurant -->
+	<!-- Find a Meal -->
 	<div class="container">
-		<h1 class="text-center" style="margin-bottom:50px;">Find a Restaurant</h1>
+		<h1 class="text-center" style="margin-bottom:50px;">Find a Meal</h1>
 			<div style="margin:auto; width:100%; text-align:center;">
 			
 				<%
@@ -99,7 +99,7 @@ Although you can use them, for a more unique website, replace these images with 
 						//Get the selected radio button from the index.jsp
 						String rest = " ";
 						boolean changed = false;
-						String temp_rest = request.getParameter("Restaurant");
+						String temp_rest =  request.getParameter("Restaurant");
 						for(int i = 0; i < temp_rest.length(); i++){
 							if(temp_rest.charAt(i) == '\''){
 								rest = temp_rest.substring(0, i) + "'" + temp_rest.substring(i, temp_rest.length());
@@ -109,9 +109,16 @@ Although you can use them, for a more unique website, replace these images with 
 						if(!changed)
 							rest = temp_rest;
 						String type = request.getParameter("Type");
-						String loc = request.getParameter("Location");
+						String meal = request.getParameter("Meal");
+						String price = request.getParameter("Price");
+						if(price == "")
+							price ="1000";
+						String cals = request.getParameter("Calories");
+						String protein = request.getParameter("Protein");
+						String carbs = request.getParameter("Carbs");
+						String fat = request.getParameter("Fat");
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT * FROM Restaurants WHERE Rname LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' LIMIT 100";
+						String str = "SELECT s1.Restaurant, s1.Meal, s1.Price FROM Serves s1 WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and s1.Price <=" + price + " LIMIT 100";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						
@@ -133,11 +140,11 @@ Although you can use them, for a more unique website, replace these images with 
 						//make a column
 						out.print("<td style=\"width:33%\">");
 						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-						out.print("Restaurant Type");
+						out.print("Meal Name");
 						out.print("</td>");
 						out.print("<td style=\"width:33%\">");
 						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-						out.print("Restaurant Address");
+						out.print("Meal Price");
 						out.print("</td>");
 						out.print("</tr>");
 						
@@ -150,17 +157,15 @@ Although you can use them, for a more unique website, replace these images with 
 							//make a column
 							out.print("<td style=\"text-align:left;\">");
 							//Print out current bar or beer name:
-							out.print(counter + ". " + result.getString("Rname"));
+							out.print(counter + ". " + result.getString("Restaurant"));
 							out.print("</td>");
 							out.print("<td>");
 							//Print out current bar/beer additional info: Manf or Address
-							String temp = result.getString("Type");
-							String temp2 = temp.substring(0, temp.length()-1);
-							out.print(temp2);
+							out.print(result.getString("Meal"));
 							out.print("</td>");
-							out.print("<td style=\"text-align:right;\">");
+							out.print("<td style=\"text-align:center;\">");
 							//Print out current bar or beer name:
-							out.print(result.getString("Address"));
+							out.print("$" + result.getString("Price"));
 							out.print("</td>");
 							out.print("</tr>");
 							counter++;
@@ -189,7 +194,7 @@ Although you can use them, for a more unique website, replace these images with 
 		  	</button>
 		  	<script type="text/javascript">
 			    document.getElementById("myButton").onclick = function () {
-			        location.href = "index.jsp";
+			        location.href = "food.jsp";
 			    };
 			</script>
 	  	</div>
