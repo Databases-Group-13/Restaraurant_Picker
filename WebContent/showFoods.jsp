@@ -114,11 +114,19 @@ Although you can use them, for a more unique website, replace these images with 
 						if(price == "")
 							price ="1000";
 						String cals = request.getParameter("Calories");
+						if(cals == "")
+							cals ="50000";
 						String protein = request.getParameter("Protein");
+						if(protein == "")
+							protein ="50000";
 						String carbs = request.getParameter("Carbs");
+						if(carbs == "")
+							carbs ="50000";
 						String fat = request.getParameter("Fat");
+						if(fat == "")
+							fat ="50000";
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT s1.Restaurant, s1.Meal, s1.Price FROM Serves s1 WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and s1.Price <=" + price + " LIMIT 100";
+						String str = "SELECT s1.Restaurant, s1.Meal, m1.Calories, s1.Price FROM Serves s1, Meals m1 WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and s1.Price <=" + price + " and m1.Protein <=" + protein + " and m1.Calories <=" + cals + " and m1.Carbs <= " + carbs +" and m1.Fat <=" +fat+ " and s1.meal = m1.meal LIMIT 100";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						
@@ -150,28 +158,33 @@ Although you can use them, for a more unique website, replace these images with 
 						
 						int counter = 1;
 						//parse out the results
-						
-						while (result.next()) {
-							//make a row
-							out.print("<tr style=\"height:50px;\">");
-							//make a column
-							out.print("<td style=\"text-align:left;\">");
-							//Print out current bar or beer name:
-							out.print(counter + ". " + result.getString("Restaurant"));
-							out.print("</td>");
-							out.print("<td>");
-							//Print out current bar/beer additional info: Manf or Address
-							out.print(result.getString("Meal"));
-							out.print("</td>");
-							out.print("<td style=\"text-align:center;\">");
-							//Print out current bar or beer name:
-							out.print("$" + result.getString("Price"));
-							out.print("</td>");
-							out.print("</tr>");
-							counter++;
-			
+						if(rest == "" && meal == ""){
+							out.print("</table>");
+							out.print("<br>No Results");
 						}
-					out.print("</table>");
+						else{
+							while (result.next()) {
+								//make a row
+								out.print("<tr style=\"height:50px;\">");
+								//make a column
+								out.print("<td style=\"text-align:left;\">");
+								//Print out current bar or beer name:
+								out.print(counter + ". " + result.getString("Restaurant"));
+								out.print("</td>");
+								out.print("<td>");
+								//Print out current bar/beer additional info: Manf or Address
+								out.print(result.getString("Meal"));
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
+								//Print out current bar or beer name:
+								out.print("$" + result.getString("Price"));
+								out.print("</td>");
+								out.print("</tr>");
+								counter++;
+				
+							}
+							out.print("</table>");
+						}
 					if(empty)
 						out.print("<br>No Results");
 		

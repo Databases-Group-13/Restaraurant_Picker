@@ -171,41 +171,24 @@ Although you can use them, for a more unique website, replace these images with 
 											</select>
 							</td>
 							<td style="width:33%;">
-								Meal Type: <select name="Type" style="width:45%;">
-												<option value=""> </option>
-												<%
-													while(type.next())
-													{
-													String types = type.getString("Type"); 
-													types = types.substring(0, types.length()-1);
-												%>
-												<option value="<%=types %>"><%=types %></option>
-												<%
-													}
-												%>
-											</select>
+								Max Price: $ <input type="text" name="Price" />
 							</td>
 						</tr>
 						<tr style="text-align:center; height:50px;">
-							<td style="width:33%;">
-								Max Price: $ <input type="text" name="Price" />
-							</td>
 							<td style="width:33%;">
 								Max Calories: <input type="text" name="Calories" />
 							</td>
 							<td style="width:33%;">
 								Max Protein (g): <input type="text" name="Protein" />
 							</td>
+							<td style="width:33%;">
+								Max Carbs (g): <input type="text" name="Carbs" />
+							</td>
 						</tr>
 					</table>
 					<table style="width:100%; height:50px;">
 						<tr style="text-align:center;">
-							<td style="width:45%; text-align:right;">
-								Max Carbs (g): <input type="text" name="Carbs" />
-							</td>
-							<td>
-							</td>
-							<td style="width:45%; text-align:left;">
+							<td style="width:100%;">
 								Max Fat (g): <input type="text" name="Fat" />
 							</td>
 						</tr>

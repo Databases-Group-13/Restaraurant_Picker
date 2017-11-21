@@ -111,7 +111,7 @@ Although you can use them, for a more unique website, replace these images with 
 						String type = request.getParameter("Type");
 						String loc = request.getParameter("Location");
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT * FROM Restaurants WHERE Rname LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' LIMIT 100";
+						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' LIMIT 100";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						
@@ -126,47 +126,69 @@ Although you can use them, for a more unique website, replace these images with 
 						//make a row
 						out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
 						//make a column
-						out.print("<td style=\"width:33%\">");
+						out.print("<td style=\"width:20%\">");
 						//print out column header
 						out.print("Restaurant Name");
 						out.print("</td>");
 						//make a column
-						out.print("<td style=\"width:33%\">");
+						out.print("<td style=\"width:20%\">");
 						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
 						out.print("Restaurant Type");
 						out.print("</td>");
-						out.print("<td style=\"width:33%\">");
+						out.print("<td style=\"width:20%\">");
+						//print out column header
+						out.print("Rating");
+						out.print("</td>");
 						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("<td style=\"width:20%\">");
 						out.print("Restaurant Address");
+						out.print("</td>");
+						out.print("<td style=\"width:20%\">");
+						//print out column header
+						out.print("Phone Number");
 						out.print("</td>");
 						out.print("</tr>");
 						
 						int counter = 1;
 						//parse out the results
-						
-						while (result.next()) {
-							//make a row
-							out.print("<tr style=\"height:50px;\">");
-							//make a column
-							out.print("<td style=\"text-align:left;\">");
-							//Print out current bar or beer name:
-							out.print(counter + ". " + result.getString("Rname"));
-							out.print("</td>");
-							out.print("<td>");
-							//Print out current bar/beer additional info: Manf or Address
-							String temp = result.getString("Type");
-							String temp2 = temp.substring(0, temp.length()-1);
-							out.print(temp2);
-							out.print("</td>");
-							out.print("<td style=\"text-align:right;\">");
-							//Print out current bar or beer name:
-							out.print(result.getString("Address"));
-							out.print("</td>");
-							out.print("</tr>");
-							counter++;
-			
+						if(rest == "" && type == ""){
+							out.print("</table>");
+							out.print("<br>No Results");
 						}
-					out.print("</table>");
+						else{
+							while (result.next()) {
+								//make a row
+								out.print("<tr style=\"height:50px;\">");
+								//make a column
+								out.print("<td style=\"text-align:left;\">");
+								//Print out current bar or beer name:
+								out.print(counter + ". " + result.getString("Name"));
+								out.print("</td>");
+								out.print("<td>");
+								//Print out current bar/beer additional info: Manf or Address
+								String temp = result.getString("Type");
+								String temp2 = temp.substring(0, temp.length()-1);
+								out.print(temp2);
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
+								//Print out current bar or beer name:
+								out.print(result.getString("Rating"));
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
+								//Print out current bar or beer name:
+								out.print(result.getString("Address"));
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
+								//Print out current bar or beer name:
+								out.print(result.getString("Phone Number"));
+								out.print("</td>");
+								out.print("</tr>");
+								counter++;
+				
+							}
+							out.print("</table>");
+						}
+					
 					if(empty)
 						out.print("<br>No Results");
 		
