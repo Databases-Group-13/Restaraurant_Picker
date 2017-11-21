@@ -114,7 +114,7 @@ Although you can use them, for a more unique website, replace these images with 
 						if(rating == "")
 							rating = "0";
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' and Rating >= " + rating + " LIMIT 100";
+						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' and Rating >= " + rating + " ORDER BY Rating DESC LIMIT 100";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						

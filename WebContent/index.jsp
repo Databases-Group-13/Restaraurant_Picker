@@ -188,7 +188,7 @@ Although you can use them, for a more unique website, replace these images with 
         <div class="row">
             <div class="col-xs-12">
             	<h1 class="text-center" style="text-align:left;">How It Works:</h1>
-                <p class="lead text-center" style="text-align:left;">Type a restaurant name you want to find out more about, or enter a restaurant type to get a list of all the restaurants in NJ and their locations with that type. You can also find all the restaurants in a specific town, or just get a list of 100 restaurants in NJ.</p>
+                <p class="lead text-center" style="text-align:left;">Type a restaurant name you want to find out more about, or enter a restaurant type to get a list of all the restaurants in NJ and their locations with that type. You can also find all the restaurants in a specific town, or just get a list of the top rated restaurants in New Jersey.</p>
             </div>
         </div>
     </div>

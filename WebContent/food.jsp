@@ -176,7 +176,7 @@ Although you can use them, for a more unique website, replace these images with 
 						</tr>
 						<tr style="text-align:center; height:50px;">
 							<td style="width:33%;">
-								Max Calories: <input type="number" name="Calories" />
+								Max Calories (g): <input type="number" name="Calories" />
 							</td>
 							<td style="width:33%;">
 								Max Protein (g): <input type="number" name="Protein" />
@@ -208,7 +208,53 @@ Although you can use them, for a more unique website, replace these images with 
         <div class="row">
             <div class="col-xs-12">
             	<h1 class="text-center" style="text-align:left;">How It Works:</h1>
-                <p class="lead text-center" style="text-align:left;">Type a restaurant name you want to find out more about, or enter a restaurant type to get a list of all the restaurants in NJ and their locations with that type. You can also find all the restaurants in a specific town, or just get a list of 100 restaurants in NJ.</p>
+                <p class="lead text-center" style="text-align:left;">Find all the meals a restaurant serves, find a meal served by multiple restaurants, find meals under a certain price, or find meals under a certain number of calories. There are endless options when searching our database.</p>
+            </div>
+            <div class="col-xs-12" style="margin-top:50px;">
+            	<h1 class="text-center" style="text-align:left;">Add To Our Database:</h1>
+                <p class="lead text-center" style="text-align:left;">Know something we don't? Add a restaurant or food item to our database to let others become aware of them.</p>
+            	<div style="margin:auto; width:100%; text-align:center;">
+				
+					<form method="post" action="addItems.jsp" style="margin-top:50px;">
+						<table style="width:100%;">
+							<tr style="text-align:center; height:50px;">
+								<td style="width:33%;">
+									Restaurant Name: <input type="text" name="Restaurant" />
+								</td>
+								<td style="width:33%;">
+									Meal Name: <input type="text" name="Meal" />
+								</td>
+								<td style="width:33%;">
+									Meal Price: $ <input type="number" name="Price" />
+								</td>
+							</tr>
+							<tr style="text-align:center; height:50px;">
+								<td style="width:33%;">
+									Calories (g): <input type="number" name="Calories" />
+								</td>
+								<td style="width:33%;">
+									Protein (g): <input type="number" name="Protein" />
+								</td>
+								<td style="width:33%;">
+									Carbs (g): <input type="number" name="Carbs" />
+								</td>
+							</tr>
+						</table>
+						<table style="width:100%; height:50px;">
+							<tr style="text-align:center;">
+								<td style="width:100%;">
+									Fat (g): <input type="number" name="Fat" />
+								</td>
+							</tr>
+						</table>
+					  	<div style="margin:auto; width:50%; padding:40px;">
+					  	<button class="btn btn-primary" type="submit">
+					  		<span aria-hidden="true"></span> Submit
+					  	</button>
+					  	</div>
+					</form>
+					
+				</div>
             </div>
         </div>
     </div>
