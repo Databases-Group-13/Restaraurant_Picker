@@ -110,8 +110,11 @@ Although you can use them, for a more unique website, replace these images with 
 							rest = temp_rest;
 						String type = request.getParameter("Type");
 						String loc = request.getParameter("Location");
+						String rating = request.getParameter("Rating");
+						if(rating == "")
+							rating = "0";
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' LIMIT 100";
+						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' and Rating >= " + rating + " LIMIT 100";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						
@@ -151,7 +154,7 @@ Although you can use them, for a more unique website, replace these images with 
 						
 						int counter = 1;
 						//parse out the results
-						if(rest == "" && type == ""){
+						if(rest == "" && type == "" && rating == ""){
 							out.print("</table>");
 							out.print("<br>No Results");
 						}

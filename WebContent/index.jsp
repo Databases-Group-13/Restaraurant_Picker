@@ -136,7 +136,7 @@ Although you can use them, for a more unique website, replace these images with 
 				<form method="post" action="show.jsp" style="margin-top:50px;">
 					<table style="width:100%;">
 						<tr style="text-align:center; height:50px;">
-							<td style="width:33%;">
+							<td style="width:25%;">
 								Restaurant Name: <select name="Restaurant" style="width:45%;">
 													<option value=""> </option>
 													<%
@@ -150,7 +150,7 @@ Although you can use them, for a more unique website, replace these images with 
 													%>
 												 </select>
 							</td>
-							<td style="width:33%;">
+							<td style="width:25%;">
 								Restaurant Type:  <select name="Type" style="width:45%;">
 												<option value=""> </option>
 												<%
@@ -165,8 +165,11 @@ Although you can use them, for a more unique website, replace these images with 
 												%>
 											</select>
 							</td>
-							<td style="width:33%;">
-								Restaurant Location: <input type="text" name="Location" />
+							<td style="width:25%;">
+								Location: <input type="text" name="Location" />
+							</td>
+							<td style="width:25%;">
+								Minimum Rating: <input type="number" name="Rating" min="0" max="5" step="0.01" />
 							</td>
 						</tr>
 					</table>

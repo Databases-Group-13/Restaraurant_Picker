@@ -171,25 +171,25 @@ Although you can use them, for a more unique website, replace these images with 
 											</select>
 							</td>
 							<td style="width:33%;">
-								Max Price: $ <input type="text" name="Price" />
+								Max Price: $ <input type="number" name="Price" />
 							</td>
 						</tr>
 						<tr style="text-align:center; height:50px;">
 							<td style="width:33%;">
-								Max Calories: <input type="text" name="Calories" />
+								Max Calories: <input type="number" name="Calories" />
 							</td>
 							<td style="width:33%;">
-								Max Protein (g): <input type="text" name="Protein" />
+								Max Protein (g): <input type="number" name="Protein" />
 							</td>
 							<td style="width:33%;">
-								Max Carbs (g): <input type="text" name="Carbs" />
+								Max Carbs (g): <input type="number" name="Carbs" />
 							</td>
 						</tr>
 					</table>
 					<table style="width:100%; height:50px;">
 						<tr style="text-align:center;">
 							<td style="width:100%;">
-								Max Fat (g): <input type="text" name="Fat" />
+								Max Fat (g): <input type="number" name="Fat" />
 							</td>
 						</tr>
 					</table>

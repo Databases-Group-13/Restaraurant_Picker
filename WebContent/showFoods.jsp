@@ -126,7 +126,11 @@ Although you can use them, for a more unique website, replace these images with 
 						if(fat == "")
 							fat ="50000";
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT s1.Restaurant, s1.Meal, m1.Calories, s1.Price FROM Serves s1, Meals m1 WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and s1.Price <=" + price + " and m1.Protein <=" + protein + " and m1.Calories <=" + cals + " and m1.Carbs <= " + carbs +" and m1.Fat <=" +fat+ " and s1.meal = m1.meal LIMIT 100";
+						String str;
+						if(meal == "")
+							str = "SELECT s1.Price, s1.Meal, m1.Calories, m1.Protein, m1.Carbs, m1.Fat, s1.Restaurant FROM Serves s1, Meals m1 WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and s1.Price <=" + price + " and m1.Protein <=" + protein + " and m1.Calories <=" + cals + " and m1.Carbs <= " + carbs +" and m1.Fat <=" +fat+ " and s1.Meal = m1.Meal GROUP BY m1.Meal LIMIT 100";
+						else
+							str = "SELECT s1.Price, s1.Meal, m1.Calories, m1.Protein, m1.Carbs, m1.Fat, s1.Restaurant FROM Serves s1, Meals m1 WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and s1.Price <=" + price + " and m1.Protein <=" + protein + " and m1.Calories <=" + cals + " and m1.Carbs <= " + carbs +" and m1.Fat <=" +fat+ " and s1.Meal = m1.Meal LIMIT 100";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						
@@ -141,16 +145,32 @@ Although you can use them, for a more unique website, replace these images with 
 						//make a row
 						out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
 						//make a column
-						out.print("<td style=\"width:33%\">");
+						out.print("<td style=\"width:25%\">");
 						//print out column header
 						out.print("Restaurant Name");
 						out.print("</td>");
 						//make a column
-						out.print("<td style=\"width:33%\">");
+						out.print("<td style=\"width:25%\">");
 						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
 						out.print("Meal Name");
 						out.print("</td>");
-						out.print("<td style=\"width:33%\">");
+						out.print("<td style=\"width:10%\">");
+						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("Calories");
+						out.print("</td>");
+						out.print("<td style=\"width:10%\">");
+						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("Protein");
+						out.print("</td>");
+						out.print("<td style=\"width:10%\">");
+						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("Carbs");
+						out.print("</td>");
+						out.print("<td style=\"width:10%\">");
+						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("Fat");
+						out.print("</td>");
+						out.print("<td style=\"width:10%\">");
 						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
 						out.print("Meal Price");
 						out.print("</td>");
@@ -158,7 +178,7 @@ Although you can use them, for a more unique website, replace these images with 
 						
 						int counter = 1;
 						//parse out the results
-						if(rest == "" && meal == ""){
+						if(rest == "" && meal == "" && price == ""){
 							out.print("</table>");
 							out.print("<br>No Results");
 						}
@@ -175,8 +195,21 @@ Although you can use them, for a more unique website, replace these images with 
 								//Print out current bar/beer additional info: Manf or Address
 								out.print(result.getString("Meal"));
 								out.print("</td>");
+								out.print("<td>");
+								//Print out current bar/beer additional info: Manf or Address
+								out.print(result.getString("Calories"));
+								out.print("</td>");
 								out.print("<td style=\"text-align:center;\">");
 								//Print out current bar or beer name:
+								out.print(result.getString("Protein"));
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
+								out.print(result.getString("Carbs"));
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
+								out.print(result.getString("Fat"));
+								out.print("</td>");
+								out.print("<td style=\"text-align:center;\">");
 								out.print("$" + result.getString("Price"));
 								out.print("</td>");
 								out.print("</tr>");
