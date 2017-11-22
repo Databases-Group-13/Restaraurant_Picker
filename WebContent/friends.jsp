@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
-<%@ page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <!-- Template by Quackit.com -->
@@ -62,7 +63,7 @@ Although you can use them, for a more unique website, replace these images with 
                     <li>
                         <a href="ingredients.jsp">Ingredients</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="friends.jsp">Friends</a>
                     </li>
                 </ul>
@@ -79,152 +80,104 @@ Although you can use them, for a more unique website, replace these images with 
 	</div>
 
 
-	<!-- Find a Restaurant -->
+    <!-- Heading -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="text-center">Superior Selections</h1>
+                <p class="lead text-center">Search our database of 1000s of Restaurants in New Jersey and find the right place to eat. Looking for strictly vegetarian restaurants? Or maybe even steakhouses in the same town as you? See what foods each restaurant you are interested in has and even take a look at some of the ingredients used to prepare your meals with Restaurant Picker.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promos -->
+	<div class="container-fluid">
+        <div class="row promo">
+			<div class="col-md-4 promo-item item-1">
+				<h3>
+					Find Great Restaurants
+				</h3>
+			</div>
+			<div class="col-md-4 promo-item item-2">
+				<h3>
+					Find Great Food
+				</h3>
+			</div>
+			<div class="col-md-4 promo-item item-3">
+				<h3>
+					Find The Best Ingredients
+				</h3>
+			</div>
+        </div>
+    </div><!-- /.container-fluid -->
+
+	<!-- Find a Meal -->
 	<div class="container">
-		<h1 class="text-center" style="margin-bottom:50px;">Find a Restaurant</h1>
+		<h1 class="text-center">Find Your Friends</h1>
 			<div style="margin:auto; width:100%; text-align:center;">
 			
 				<%
-					List<String> list = new ArrayList<String>();
+					Class.forName("com.mysql.jdbc.Driver");
+					String url = "jdbc:mysql://peopletable.clp3txsgtchd.us-east-2.rds.amazonaws.com:3306/innodb";
 					
-					try {
-			
-						Class.forName("com.mysql.jdbc.Driver");
-						String url = "jdbc:mysql://peopletable.clp3txsgtchd.us-east-2.rds.amazonaws.com:3306/innodb";
-						
-						Connection con = DriverManager.getConnection(url, "Admin", "Group13!");
-			
-						//Create a SQL statement
-						Statement stmt = con.createStatement();
-						//Get the selected radio button from the index.jsp
-						String rest = " ";
-						boolean changed = false;
-						String temp_rest = request.getParameter("Restaurant");
-						for(int i = 0; i < temp_rest.length(); i++){
-							if(temp_rest.charAt(i) == '\''){
-								rest = temp_rest.substring(0, i) + "'" + temp_rest.substring(i, temp_rest.length());
-								changed = true;
-							}
-						}
-						if(!changed)
-							rest = temp_rest;
-						String type = request.getParameter("Type");
-						String loc = request.getParameter("Location");
-						String rating = request.getParameter("Rating");
-						if(rating == "")
-							rating = "0";
-						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' and Rating >= " + rating + " ORDER BY Rating DESC LIMIT 100";
-						//Run the query against the database.
-						ResultSet result = stmt.executeQuery(str);
-						
-						boolean empty = false;
-						if(!result.next()){
-							empty = true;
-						}
-						result.beforeFirst();
-						//Make an HTML table to show the results in:
-						out.print("<table style=\"margin:0 auto\">");
-			
-						//make a row
-						out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
-						//make a column
-						out.print("<td style=\"width:20%\">");
-						//print out column header
-						out.print("Restaurant Name");
-						out.print("</td>");
-						//make a column
-						out.print("<td style=\"width:20%\">");
-						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-						out.print("Restaurant Type");
-						out.print("</td>");
-						out.print("<td style=\"width:20%\">");
-						//print out column header
-						out.print("Rating");
-						out.print("</td>");
-						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-						out.print("<td style=\"width:20%\">");
-						out.print("Restaurant Address");
-						out.print("</td>");
-						out.print("<td style=\"width:20%\">");
-						//print out column header
-						out.print("Phone Number");
-						out.print("</td>");
-						out.print("</tr>");
-						
-						int counter = 1;
-						//parse out the results
-						if(rest == "" && type == "" && rating == ""){
-							out.print("</table>");
-							out.print("<br>No Results");
-						}
-						else{
-							while (result.next()) {
-								//make a row
-								out.print("<tr style=\"height:50px;\">");
-								//make a column
-								out.print("<td style=\"text-align:left;\">");
-								//Print out current bar or beer name:
-								out.print(counter + ". " + result.getString("Name"));
-								out.print("</td>");
-								out.print("<td>");
-								//Print out current bar/beer additional info: Manf or Address
-								String temp = result.getString("Type");
-								String temp2 = temp.substring(0, temp.length()-1);
-								out.print(temp2);
-								out.print("</td>");
-								out.print("<td style=\"text-align:center;\">");
-								//Print out current bar or beer name:
-								out.print(result.getString("Rating"));
-								out.print("</td>");
-								out.print("<td style=\"text-align:center;\">");
-								//Print out current bar or beer name:
-								out.print(result.getString("Address"));
-								out.print("</td>");
-								out.print("<td style=\"text-align:center;\">");
-								//Print out current bar or beer name:
-								out.print(result.getString("Phone Number"));
-								out.print("</td>");
-								out.print("</tr>");
-								counter++;
-				
-							}
-							out.print("</table>");
-						}
-					
-					if(empty)
-						out.print("<br>No Results");
+					Connection con = DriverManager.getConnection(url, "Admin", "Group13!");
 		
-					//close the connection.
-					con.close();
-					}
-				catch (Exception e) {
-						out.print(e);
-					}
+					//Create a SQL statement					
+					Statement stmt = con.createStatement();
+					String str = "SELECT DISTINCT Person FROM Friends ORDER BY Person ASC";
+					//Run the query against the database.
+					ResultSet friends = stmt.executeQuery(str);
+
 				%>
+			
+				<form method="post" action="showFriends.jsp" style="margin-top:50px;">
+					<table style="width:100%;">
+						<tr style="text-align:center; height:50px;">
+							<td style="width:50%;">
+								Your Name: <select name="Friend" style="width:45%;">
+													<option value=""> </option>
+													<%
+														while(friends.next())
+														{
+														String rest = friends.getString("Person"); 
+													%>
+													<option value="<%=rest %>"><%=rest %></option>
+													<%
+														}
+													%>
+												 </select>
+							</td>
+							<td style="width:50%;">
+								Your Address:  <input type="text" name="Address" />
+							</td>
+						</tr>
+					</table>
+				  	<div style="margin:auto; width:50%; padding:40px;">
+				  	<button class="btn btn-primary" type="submit">
+				  		<span aria-hidden="true"></span> Submit
+				  	</button>
+				  	</div>
+				</form>
 				
 			</div>
 			
     </div><!-- /.container -->
 	
-	<div style="margin:auto; width:100%; text-align:center;">
-	  	<div style="margin:auto; width:50%; padding:40px;">
-		  	<button class="btn btn-primary" type="button" id="myButton">
-		  		Search Again
-		  	</button>
-		  	<script type="text/javascript">
-			    document.getElementById("myButton").onclick = function () {
-			        location.href = "index.jsp";
-			    };
-			</script>
-	  	</div>
-	</div>
+	<div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+            	<h1 class="text-center" style="text-align:left;">How It Works:</h1>
+                <p class="lead text-center" style="text-align:left;">Find all your friends and your friends' nutrition goals, their most frequented restaurants, and their most liked meals.</p>
+            	<p class="lead text-center" style="text-align:left;">To verify our patterns: Find one person's friend and then find their friend to see that if A is a friend of B, B is also a friend of A.</p>
+            </div>
+        </div>
+    </div>
 	
 	<!-- Footer -->
 	<footer>
 
 		<!-- Footer Links -->
-		<div class="footer-info" style="margin-top:50px;">
+		<div class="footer-info">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4 footer-info-item">

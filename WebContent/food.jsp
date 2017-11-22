@@ -61,10 +61,10 @@ Although you can use them, for a more unique website, replace these images with 
                         <a href="food.jsp">Food</a>
                     </li>
                     <li>
-                        <a href="#">Ingredients</a>
+                        <a href="ingredients.jsp">Ingredients</a>
                     </li>
                     <li>
-                        <a href="#">Friends</a>
+                        <a href="friends.jsp">Friends</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -209,41 +209,42 @@ Although you can use them, for a more unique website, replace these images with 
             <div class="col-xs-12">
             	<h1 class="text-center" style="text-align:left;">How It Works:</h1>
                 <p class="lead text-center" style="text-align:left;">Find all the meals a restaurant serves, find a meal served by multiple restaurants, find meals under a certain price, or find meals under a certain number of calories. There are endless options when searching our database.</p>
+            	<p class="lead text-center" style="text-align:left;">To verify our patterns: Type macronutrient values to see that they all add up to less than 900 grams. Type in price values to see that all meals range from $2.00 to $15.00.</p>
             </div>
             <div class="col-xs-12" style="margin-top:50px;">
             	<h1 class="text-center" style="text-align:left;">Add To Our Database:</h1>
-                <p class="lead text-center" style="text-align:left;">Know something we don't? Add a restaurant or food item to our database to let others become aware of them.</p>
+                <p class="lead text-center" style="text-align:left;">Know something we don't? Add a food item served by a restaurant to our database to let others become aware of them.</p>
             	<div style="margin:auto; width:100%; text-align:center;">
 				
 					<form method="post" action="addItems.jsp" style="margin-top:50px;">
 						<table style="width:100%;">
 							<tr style="text-align:center; height:50px;">
 								<td style="width:33%;">
-									Restaurant Name: <input type="text" name="Restaurant" />
+									Restaurant Name: <input type="text" name="Restaurant" required/>
 								</td>
 								<td style="width:33%;">
-									Meal Name: <input type="text" name="Meal" />
+									Meal Name: <input type="text" name="Meal" required/>
 								</td>
 								<td style="width:33%;">
-									Meal Price: $ <input type="number" name="Price" />
+									Meal Price: $ <input type="number" name="Price" required/>
 								</td>
 							</tr>
 							<tr style="text-align:center; height:50px;">
 								<td style="width:33%;">
-									Calories (g): <input type="number" name="Calories" />
+									Calories (g): <input type="number" name="Calories" required/>
 								</td>
 								<td style="width:33%;">
-									Protein (g): <input type="number" name="Protein" />
+									Protein (g): <input type="number" name="Protein" required/>
 								</td>
 								<td style="width:33%;">
-									Carbs (g): <input type="number" name="Carbs" />
+									Carbs (g): <input type="number" name="Carbs" required/>
 								</td>
 							</tr>
 						</table>
 						<table style="width:100%; height:50px;">
 							<tr style="text-align:center;">
 								<td style="width:100%;">
-									Fat (g): <input type="number" name="Fat" />
+									Fat (g): <input type="number" name="Fat" required/>
 								</td>
 							</tr>
 						</table>

@@ -61,10 +61,10 @@ Although you can use them, for a more unique website, replace these images with 
                         <a href="food.jsp">Food</a>
                     </li>
                     <li>
-                        <a href="#">Ingredients</a>
+                        <a href="ingredients.jsp">Ingredients</a>
                     </li>
                     <li>
-                        <a href="#">Friends</a>
+                        <a href="friends.jsp">Friends</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -169,7 +169,7 @@ Although you can use them, for a more unique website, replace these images with 
 								Location: <input type="text" name="Location" />
 							</td>
 							<td style="width:25%;">
-								Minimum Rating: <input type="number" name="Rating" min="0" max="5" step="0.01" />
+								Minimum Rating: <input type="number" name="Rating" min="1" max="5" step="0.01" />
 							</td>
 						</tr>
 					</table>
@@ -189,6 +189,7 @@ Although you can use them, for a more unique website, replace these images with 
             <div class="col-xs-12">
             	<h1 class="text-center" style="text-align:left;">How It Works:</h1>
                 <p class="lead text-center" style="text-align:left;">Type a restaurant name you want to find out more about, or enter a restaurant type to get a list of all the restaurants in NJ and their locations with that type. You can also find all the restaurants in a specific town, or just get a list of the top rated restaurants in New Jersey.</p>
+            	<p class="lead text-center" style="text-align:left;">To verify our patterns: Type in a state abbreviation other than NJ to see that there are no other states in our databse besides New Jersey. Type a Restaurant Name to verify that all instances of that restaurant have the same type. Enter a rating to see that all ratings range from 1 to 5.</p>
             </div>
         </div>
     </div>

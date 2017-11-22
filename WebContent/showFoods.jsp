@@ -60,10 +60,10 @@ Although you can use them, for a more unique website, replace these images with 
                         <a href="food.jsp">Food</a>
                     </li>
                     <li>
-                        <a href="#">Ingredients</a>
+                        <a href="ingredients.jsp">Ingredients</a>
                     </li>
                     <li>
-                        <a href="#">Friends</a>
+                        <a href="friends.jsp">Friends</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->

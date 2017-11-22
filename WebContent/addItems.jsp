@@ -79,9 +79,9 @@ Although you can use them, for a more unique website, replace these images with 
 	</div>
 
 
-	<!-- Find a Restaurant -->
+	<!-- Find a Meal -->
 	<div class="container">
-		<h1 class="text-center" style="margin-bottom:50px;">Find a Restaurant</h1>
+		<h1 class="text-center" style="margin-bottom:50px;">Add a Meal</h1>
 			<div style="margin:auto; width:100%; text-align:center;">
 			
 				<%
@@ -96,10 +96,15 @@ Although you can use them, for a more unique website, replace these images with 
 			
 						//Create a SQL statement
 						Statement stmt = con.createStatement();
+						Statement stmt2 = con.createStatement();
+						Statement stmt3 = con.createStatement();
+						Statement stmt4 = con.createStatement();
+						Statement stmt5 = con.createStatement();
+						Statement stmt6 = con.createStatement();
 						//Get the selected radio button from the index.jsp
 						String rest = " ";
 						boolean changed = false;
-						String temp_rest = request.getParameter("Restaurant");
+						String temp_rest =  request.getParameter("Restaurant");
 						for(int i = 0; i < temp_rest.length(); i++){
 							if(temp_rest.charAt(i) == '\''){
 								rest = temp_rest.substring(0, i) + "'" + temp_rest.substring(i, temp_rest.length());
@@ -108,93 +113,43 @@ Although you can use them, for a more unique website, replace these images with 
 						}
 						if(!changed)
 							rest = temp_rest;
-						String type = request.getParameter("Type");
-						String loc = request.getParameter("Location");
-						String rating = request.getParameter("Rating");
-						if(rating == "")
-							rating = "0";
+						String meal = request.getParameter("Meal");
+						Double price = Double.parseDouble(request.getParameter("Price"));
+						Double cals = Double.parseDouble(request.getParameter("Calories"));
+						Double protein = Double.parseDouble(request.getParameter("Protein"));
+						Double carbs = Double.parseDouble(request.getParameter("Carbs"));
+						Double fat = Double.parseDouble(request.getParameter("Fat"));
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT * FROM Restaurants WHERE Name LIKE '%" + rest + "%' and Type LIKE '%" + type + "%' and Address LIKE '%" + loc + "%' and Rating >= " + rating + " ORDER BY Rating DESC LIMIT 100";
+						String str = "SELECT Name FROM Restaurants WHERE Name LIKE '%" + rest + "%'";
+						String str2 = "SELECT Meal FROM Meals WHERE Meal = '" + meal + "'";
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
+						ResultSet result2 = stmt2.executeQuery(str2);
 						
-						boolean empty = false;
 						if(!result.next()){
-							empty = true;
+							out.print("Update Rejected. Restaurant not found in our database");
 						}
-						result.beforeFirst();
-						//Make an HTML table to show the results in:
-						out.print("<table style=\"margin:0 auto\">");
-			
-						//make a row
-						out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
-						//make a column
-						out.print("<td style=\"width:20%\">");
-						//print out column header
-						out.print("Restaurant Name");
-						out.print("</td>");
-						//make a column
-						out.print("<td style=\"width:20%\">");
-						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-						out.print("Restaurant Type");
-						out.print("</td>");
-						out.print("<td style=\"width:20%\">");
-						//print out column header
-						out.print("Rating");
-						out.print("</td>");
-						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-						out.print("<td style=\"width:20%\">");
-						out.print("Restaurant Address");
-						out.print("</td>");
-						out.print("<td style=\"width:20%\">");
-						//print out column header
-						out.print("Phone Number");
-						out.print("</td>");
-						out.print("</tr>");
-						
-						int counter = 1;
-						//parse out the results
-						if(rest == "" && type == "" && rating == ""){
-							out.print("</table>");
-							out.print("<br>No Results");
-						}
-						else{
-							while (result.next()) {
-								//make a row
-								out.print("<tr style=\"height:50px;\">");
-								//make a column
-								out.print("<td style=\"text-align:left;\">");
-								//Print out current bar or beer name:
-								out.print(counter + ". " + result.getString("Name"));
-								out.print("</td>");
-								out.print("<td>");
-								//Print out current bar/beer additional info: Manf or Address
-								String temp = result.getString("Type");
-								String temp2 = temp.substring(0, temp.length()-1);
-								out.print(temp2);
-								out.print("</td>");
-								out.print("<td style=\"text-align:center;\">");
-								//Print out current bar or beer name:
-								out.print(result.getString("Rating"));
-								out.print("</td>");
-								out.print("<td style=\"text-align:center;\">");
-								//Print out current bar or beer name:
-								out.print(result.getString("Address"));
-								out.print("</td>");
-								out.print("<td style=\"text-align:center;\">");
-								//Print out current bar or beer name:
-								out.print(result.getString("Phone Number"));
-								out.print("</td>");
-								out.print("</tr>");
-								counter++;
-				
+						else{							
+							if(cals > 900 || protein + carbs + fat > 901){
+								out.print("Update Rejected. Calorie or Macronutrient values too high");
 							}
-							out.print("</table>");
+							else if(!result2.next()){
+								String update = "INSERT INTO Meals VALUES ('" + meal + "', '" + cals + "', '" + protein + "', '" + fat + "', '" + carbs + "')";
+								String update2 = "INSERT INTO Serves VALUES ('" + rest + "', '" + meal + "', '" + price + "')";
+								stmt3.executeUpdate(update);
+								stmt4.executeUpdate(update2);
+								out.print("Successfully Added Your Request");
+							}
+							else{
+								String update = "UPDATE Meals SET Calories ='" + Double.toString(cals) + "', Protein = '" + Double.toString(protein) + "', Fat = '" + Double.toString(fat) + "', Carbs = '" + Double.toString(carbs) + "' WHERE Meal = '" + meal + "'";
+								String update2 = "UPDATE Serves SET Price ='" + Double.toString(price) + "' WHERE Restaurant = '" + rest + "' and Meal = '" + meal + "'";
+								stmt5.executeUpdate(update);
+								stmt6.executeUpdate(update2);
+								out.print("Successfully Added Your Request");
+							}
+							
 						}
-					
-					if(empty)
-						out.print("<br>No Results");
-		
+						
 					//close the connection.
 					con.close();
 					}
@@ -214,7 +169,7 @@ Although you can use them, for a more unique website, replace these images with 
 		  	</button>
 		  	<script type="text/javascript">
 			    document.getElementById("myButton").onclick = function () {
-			        location.href = "index.jsp";
+			        location.href = "food.jsp";
 			    };
 			</script>
 	  	</div>
