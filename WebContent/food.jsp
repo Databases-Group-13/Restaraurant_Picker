@@ -5,31 +5,20 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<!-- Template by Quackit.com -->
-<!-- Images by various sources under the Creative Commons CC0 license and/or the Creative Commons Zero license. 
-Although you can use them, for a more unique website, replace these images with your own. -->
 <html lang="en">
 <head>
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Restaurant Picker</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
     <link href="css/custom.css" rel="stylesheet">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
@@ -226,18 +215,18 @@ Although you can use them, for a more unique website, replace these images with 
 									Meal Name: <input type="text" name="Meal" required/>
 								</td>
 								<td style="width:33%;">
-									Meal Price: $ <input type="number" name="Price" required/>
+									Meal Price: $ <input type="number" name="Price" min="1" max ="100" step="0.01" required/>
 								</td>
 							</tr>
 							<tr style="text-align:center; height:50px;">
 								<td style="width:33%;">
-									Calories (g): <input type="number" name="Calories" required/>
+									Calories (g): <input type="number" name="Calories" min="1" max ="900" step="0.01" required/>
 								</td>
 								<td style="width:33%;">
-									Protein (g): <input type="number" name="Protein" required/>
+									Protein (g): <input type="number" name="Protein" min="1" max ="900" step="0.01" required/>
 								</td>
 								<td style="width:33%;">
-									Carbs (g): <input type="number" name="Carbs" required/>
+									Carbs (g): <input type="number" name="Carbs" min="1" max ="900" step="0.01" required/>
 								</td>
 							</tr>
 						</table>
@@ -307,7 +296,7 @@ Although you can use them, for a more unique website, replace these images with 
         <div class="small-print">
         	<div class="container">
         		<p><a href="#">Terms &amp; Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact</a></p>
-        		<p>Copyright &copy; Example.com 2015 </p>
+        		<p>Copyright &copy; Restaurant Picker 2017 </p>
         	</div>
         </div>
         

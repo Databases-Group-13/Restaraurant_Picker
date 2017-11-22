@@ -69,7 +69,7 @@
 
 	<!-- Find a Meal -->
 	<div class="container">
-		<h1 class="text-center" style="margin-bottom:50px;">Find a Friend</h1>
+		<h1 class="text-center" style="margin-bottom:50px;">Find a Meal</h1>
 			<div style="margin:auto; width:100%; text-align:center;">
 			
 				<%
@@ -85,10 +85,25 @@
 						//Create a SQL statement
 						Statement stmt = con.createStatement();
 						//Get the selected radio button from the index.jsp
-						String friend = request.getParameter("Friend");
-						String address = request.getParameter("Address");
+						String rest = " ";
+						boolean changed = false;
+						String temp_rest =  request.getParameter("Restaurant");
+						for(int i = 0; i < temp_rest.length(); i++){
+							if(temp_rest.charAt(i) == '\''){
+								rest = temp_rest.substring(0, i) + "'" + temp_rest.substring(i, temp_rest.length());
+								changed = true;
+							}
+						}
+						if(!changed)
+							rest = temp_rest;
+						String ingredient = request.getParameter("recipe");
+						String meal = request.getParameter("Meal");
+
 						//Make a SELECT query from the table specified by the 'command' parameter at the index.jsp
-						String str = "SELECT Friend, FriendAddress FROM Friends WHERE Person ='" + friend + "' and PersonAddress LIKE '%" + address + "%'";
+						String str;
+						
+						str = "SELECT s1.Meal, s1.Restaurant, r1.recipe FROM Serves s1, Recipes r1  WHERE s1.Restaurant LIKE '%" + rest + "%' and s1.Meal LIKE '%" + meal + "%' and r1.menuitem LIKE '%" + meal + "%' and r1.recipe LIKE '%" + ingredient + "%' and s1.Meal = r1.menuitem LIMIT 100";
+						
 						//Run the query against the database.
 						ResultSet result = stmt.executeQuery(str);
 						
@@ -97,132 +112,58 @@
 							empty = true;
 						}
 						result.beforeFirst();
+						//Make an HTML table to show the results in:
+						out.print("<table style=\"margin:0 auto\">");
+						//make a row
+						out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
+						//make a column
+						out.print("<td style=\"width:33%\">");
+						//print out column header
+						out.print("Restaurant Name");
+						out.print("</td>");
+						//make a column
+						out.print("<td style=\"width:33%\">");
+						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("Meal Name");
+						out.print("</td>");
+						out.print("<td style=\"width:33%\">");
+						//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
+						out.print("Recipe");
+						out.print("</td>");
+						out.print("</tr>");
 						
-						if(empty)
-							out.print("No Results");
-						else{
-							if(result.next()){
-								String fname = result.getString("Friend");
-								String faddress = result.getString("FriendAddress");
-								Statement stmt2 = con.createStatement();
-								String str2 = "SELECT RecommendedCalories, RecommendedProtein, RecommendedCarbs, RecommendedFat, Fav_Restaurant FROM People WHERE Name ='" + fname +"' and Address LIKE '%" + faddress + "%'";
-								ResultSet result2 = stmt.executeQuery(str2);
-								out.print("<p style=\"font-size:14pt; font-weight:bold; text-align:left;\">Your Friend: " + fname + " at " + faddress);
-								
-								out.print("<br><br><table style=\"margin:0 auto\">");
-								//make a row
-								out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
-								//make a column
-								out.print("<td style=\"width:20%\">");
-								//print out column header
-								out.print("Calories");
-								out.print("</td>");
-								//make a column
-								out.print("<td style=\"width:20%\">");
-								//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-								out.print("Protein");
-								out.print("</td>");
-								out.print("<td style=\"width:20%\">");
-								//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-								out.print("Carbs");
-								out.print("</td>");
-								out.print("<td style=\"width:20%\">");
-								//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-								out.print("Fat");
-								out.print("</td>");
-								out.print("<td style=\"width:20%\">");
-								//depending on the radio button selection make a column header for Manufacturer if the beers table was selected and Address if the bars table was selected
-								out.print("Favorite Restaurant");
-								out.print("</td>");
-								out.print("</tr>");
-								int counter = 1;
-								while (result2.next()) {
-									//make a row
-									out.print("<tr style=\"height:50px;\">");
-									//make a column
-									out.print("<td style=\"text-align:center;\">");
-									//Print out current bar or beer name:
-									out.print(counter + ". " + result2.getString("RecommendedCalories"));
-									out.print("</td>");
-									out.print("<td>");
-									//Print out current bar/beer additional info: Manf or Address
-									out.print(result2.getString("RecommendedProtein"));
-									out.print("</td>");
-									out.print("<td>");
-									//Print out current bar/beer additional info: Manf or Address
-									out.print(result2.getString("RecommendedCarbs"));
-									out.print("</td>");
-									out.print("<td style=\"text-align:center;\">");
-									//Print out current bar or beer name:
-									out.print(result2.getString("RecommendedFat"));
-									out.print("</td>");
-									out.print("<td style=\"text-align:center;\">");
-									out.print(result2.getString("Fav_Restaurant"));
-									out.print("</td>");
-									out.print("</tr>");
-									counter++;
-					
-								}
-								out.print("</table>");
-								
-								Statement stmt3 = con.createStatement();
-								String str3 = "SELECT Restaurant FROM Frequents WHERE Name ='" + fname +"' and Address LIKE '%" + faddress + "%'";
-								ResultSet result3 = stmt.executeQuery(str3);
-								out.print("<br><br><br><p style=\"font-size:14pt; font-weight:bold; text-align:left;\">" + fname + "'s Most Frequented Restaurants:");
-								
-								out.print("<br><table>");
-								
-								//make a row
-								out.print("<tr style=\"font-size:14pt; font-weight:bold; text-align:left;\">");
-								//make a column
-								out.print("<td style=\"width:100%; text-align:left;\">");
-								//print out column header
-								out.print("</td>");
-								out.print("</tr>");
-								
-								counter = 1;
-								while (result3.next()) {
-									//make a row
-									out.print("<tr style=\"height:50px;\">");
-									//make a column
-									out.print("<td style=\"text-align:left;\">");
-									//Print out current bar or beer name:
-									out.print(counter + ". " + result3.getString("Restaurant"));
-									out.print("</td>");
-									out.print("</tr>");
-									counter++;
-								}
-								out.print("</table>");
-								Statement stmt4 = con.createStatement();
-								String str4 = "SELECT Meal FROM Likes WHERE Name ='" + fname +"' and Address LIKE '%" + faddress + "%'";
-								ResultSet result4 = stmt.executeQuery(str4);
-								out.print("<br><br><br><p style=\"font-size:14pt; font-weight:bold; text-align:left;\">" + fname + "'s Most Liked Meals:");
-								
-								out.print("<br><table style=\"margin:0 auto\">");
-								
-								//make a row
-								out.print("<tr style=\"font-size:14pt; font-weight:bold;\">");
-								//make a column
-								out.print("<td style=\"width:20%\">");
-								//print out column header
-								out.print("</td>");
-								out.print("</tr>");
-								
-								counter = 1;
-								while (result4.next()) {
-									//make a row
-									out.print("<tr style=\"height:50px;\">");
-									//make a column
-									out.print("<td style=\"text-align:left;\">");
-									//Print out current bar or beer name:
-									out.print(counter + ". " + result4.getString("Meal"));
-									out.print("</td>");
-									out.print("</tr>");
-									counter++;
-								}
-								out.print("</table><br>");
-							}
+						int counter = 1;
+						//parse out the results
+						if(rest == "" && meal == "" && ingredient == ""){
+							out.print("</table>");
+							out.print("<br>No Results");
 						}
+						else{
+							while (result.next()) {
+								//make a row
+								out.print("<tr style=\"height:50px;\">");
+								//make a column
+								out.print("<td style=\"text-align:left;\">");
+								//Print out current bar or beer name:
+								out.print(counter + ". " + result.getString("Restaurant"));
+								out.print("</td>");
+								out.print("<td>");
+								//Print out current bar/beer additional info: Manf or Address
+								out.print(result.getString("Meal"));
+								out.print("</td>");
+								out.print("<td>");
+								//Print out current bar/beer additional info: Manf or Address
+								out.print(result.getString("recipe"));
+								out.print("</td>");
+								out.print("<td>");
+								out.print("</tr>");
+								counter++;
+				
+							}
+							out.print("</table>");
+						}
+					if(empty)
+						out.print("<br>No Results");
 		
 					//close the connection.
 					con.close();
@@ -243,7 +184,7 @@
 		  	</button>
 		  	<script type="text/javascript">
 			    document.getElementById("myButton").onclick = function () {
-			        location.href = "friends.jsp";
+			        location.href = "ingredients.jsp";
 			    };
 			</script>
 	  	</div>
@@ -296,7 +237,7 @@
         <div class="small-print">
         	<div class="container">
         		<p><a href="#">Terms &amp; Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact</a></p>
-        		<p>Copyright &copy; Restaurant Picker 2017 </p>
+        		<p>Copyright &copy; Example.com 2015 </p>
         	</div>
         </div>
         

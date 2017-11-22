@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <link href="css/custom.css" rel="stylesheet">
-
 
 </head>
 
@@ -43,13 +42,13 @@
             <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active">
+                    <li>
                         <a href="index.jsp">Home</a>
                     </li>
                     <li>
                         <a href="food.jsp">Food</a>
                     </li>
-                    <li>
+                    <li  class="active">
                         <a href="ingredients.jsp">Ingredients</a>
                     </li>
                     <li>
@@ -100,9 +99,9 @@
         </div>
     </div><!-- /.container-fluid -->
 
-	<!-- Find a Restaurant -->
+	<!-- Find a Recipe -->
 	<div class="container">
-		<h1 class="text-center">Find a Restaurant</h1>
+		<h1 class="text-center">Find a Recipe</h1>
 			<div style="margin:auto; width:100%; text-align:center;">
 			
 				<%
@@ -110,6 +109,12 @@
 					String url = "jdbc:mysql://peopletable.clp3txsgtchd.us-east-2.rds.amazonaws.com:3306/innodb";
 					
 					Connection con = DriverManager.getConnection(url, "Admin", "Group13!");
+		
+					//Create a SQL statement
+					Statement stmt = con.createStatement();
+					String str = "SELECT DISTINCT Meal FROM Serves ORDER BY Meal DESC";
+					//Run the query against the database.
+					ResultSet meals = stmt.executeQuery(str);
 					
 					Statement stmt2 = con.createStatement();
 					String str2 = "SELECT DISTINCT Restaurant FROM Serves ORDER BY Restaurant ASC";
@@ -117,15 +122,15 @@
 					ResultSet restaurants = stmt2.executeQuery(str2);
 					
 					Statement stmt3 = con.createStatement();
-					String str3 = "SELECT DISTINCT Type FROM Restaurants ORDER BY Type ASC";
+					String str3 = "SELECT DISTINCT recipe FROM Recipes ORDER BY recipe ASC";
 					//Run the query against the database.
-					ResultSet type = stmt3.executeQuery(str3);
+					ResultSet recipes = stmt3.executeQuery(str3);
 				%>
 			
-				<form method="post" action="show.jsp" style="margin-top:50px;">
+				<form method="post" action="showIngredients.jsp" style="margin-top:50px;">
 					<table style="width:100%;">
 						<tr style="text-align:center; height:50px;">
-							<td style="width:25%;">
+							<td style="width:33%;">
 								Restaurant Name: <select name="Restaurant" style="width:45%;">
 													<option value=""> </option>
 													<%
@@ -139,14 +144,13 @@
 													%>
 												 </select>
 							</td>
-							<td style="width:25%;">
-								Restaurant Type:  <select name="Type" style="width:45%;">
+							<td style="width:33%;">
+								Meal Name:  <select name="Meal" style="width:45%;">
 												<option value=""> </option>
 												<%
-													while(type.next())
+													while(meals.next())
 													{
-													String name = type.getString("Type");
-													name = name.substring(0, name.length()-1);
+													String name = meals.getString("Meal"); 
 												%>
 												<option value="<%=name %>"><%=name %></option>
 												<%
@@ -154,11 +158,8 @@
 												%>
 											</select>
 							</td>
-							<td style="width:25%;">
-								Location: <input type="text" name="Location" />
-							</td>
-							<td style="width:25%;">
-								Minimum Rating: <input type="number" name="Rating" min="1" max="5" step="0.01" />
+							<td style="width:33%;">
+								Ingredient: <input type="text" name="recipe" />
 							</td>
 						</tr>
 					</table>
@@ -177,8 +178,7 @@
         <div class="row">
             <div class="col-xs-12">
             	<h1 class="text-center" style="text-align:left;">How It Works:</h1>
-                <p class="lead text-center" style="text-align:left;">Type a restaurant name you want to find out more about, or enter a restaurant type to get a list of all the restaurants in NJ and their locations with that type. You can also find all the restaurants in a specific town, or just get a list of the top rated restaurants in New Jersey.</p>
-            	<p class="lead text-center" style="text-align:left;">To verify our patterns: Type in a state abbreviation other than NJ to see that there are no other states in our databse besides New Jersey. Type a Restaurant Name to verify that all instances of that restaurant have the same type. Enter a rating to see that all ratings range from 1 to 5.</p>
+                <p class="lead text-center" style="text-align:left;">Find all of the meals made with a specific ingredient. Enter an ingredient and the meals that contain that ingredient and the recipe of that meal. Find the recipe of a meal by enter the name of the meal or find all of the recipes of a particular restaurant by entering a restaurant name. </p>
             </div>
         </div>
     </div>
